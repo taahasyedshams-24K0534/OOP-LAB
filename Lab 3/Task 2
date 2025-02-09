@@ -1,0 +1,52 @@
+//Taaha Syed 24k 0534
+#include <iostream>
+#include <string>
+using namespace std;
+
+class FitnessTracker{
+    private:
+        string userName;
+        int dailyStepGoal;
+        int stepsTaken;
+        double caloriesBurned;
+    public:
+        FitnessTracker(string name, int goal){
+            userName=name;
+            dailyStepGoal=goal;
+            stepsTaken=0;
+            caloriesBurned=0.0;
+        }
+
+        void logsteps(int steps){
+            stepsTaken=stepsTaken+steps;
+
+        }
+
+        void calculatecalories(){
+            caloriesBurned=stepsTaken*0.04;
+        }
+
+        void progress(){
+            cout<<"Name: "<<userName<<endl;
+            cout<<"Daily Step Goal:"<<dailyStepGoal<<endl;
+            cout<<"Steps Taken Today: "<<stepsTaken<<endl;
+            cout<<"Calories Burned: "<<caloriesBurned<<endl;
+
+            if(stepsTaken>=dailyStepGoal){
+                cout<<endl<<"Fitness Goal Met For Today"<<endl<<endl;
+            } else{
+                cout<<endl<<dailyStepGoal-stepsTaken<<" steps remaining"<<endl<<endl;
+            }
+        }
+
+};
+
+int main(){
+    FitnessTracker lft("Laiba",20000);
+    lft.logsteps(5000);
+    lft.calculatecalories();    
+    lft.progress();
+    lft.logsteps(15000);
+    lft.calculatecalories();    
+    lft.progress();
+}
