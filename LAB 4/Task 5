@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+class Car{
+    string brand;
+    string model;
+    float rentalprice;
+    bool availablity;
+    float revenue=0;
+    string regnum;
+
+    public:
+    Car(string newBrand, string newModel, float newPrice, string newreg, bool newAvailability = true) 
+        : brand(newBrand), model(newModel), rentalprice(newPrice), regnum(newreg), availablity(newAvailability), revenue(0) {}
+
+    Car(Car &car) 
+        : brand(car.brand), model(car.model), rentalprice(car.rentalprice), availablity(car.availablity), revenue(car.revenue), regnum(car.regnum) {
+        cout << "Copied" << endl;
+    }
+
+    ~Car() {
+        cout<<"Car object "<<brand<<" destroyed" << endl;
+    }
+
+    void update(string newbrand, string newmodel, float newprice){
+        if(availablity==true){
+            brand=newbrand;
+            model=newmodel;
+            rentalprice=newprice;
+            cout<<"updated"<<endl;
+        } else {
+            cout<<"not updated"<<endl;
+        }
+    }
+
+    void rent(int days){
+        if(availablity==true){
+            availablity=false;
+            float cost = rentalprice * days;
+            this->revenue = this->revenue + cost;
+            cout<<"car rented"<<endl;           
+        } else {
+            cout<<"unavailable"<<endl;
+        }
+    }
+
+    void display(){
+        cout<<"Registration Number: "<<regnum<<endl;
+        cout<<"Car Brand: "<<brand<<endl;
+        cout<<"Car Model: "<<model<<endl;
+        cout<<"Car Rental Price: "<<rentalprice<<endl;
+        if(availablity==false){
+            cout<<"Car Availibilty: Unavailable"<<endl;
+        } else {
+            cout<<"Car Availibilty: Available"<<endl;
+
+        }
+        cout << "Total Revenue: " << this->revenue << endl;
+    }
+
+    void discount(int days) {
+        if (days > 10) {
+            rentalprice=rentalprice-rentalprice*0.10;
+            cout << "a 10% discount has been applied" << endl;
+        } else if (days > 5) {
+            rentalprice= rentalprice-rentalprice*0.05;
+            cout <<"a 5% discount has been applied"<< endl;
+        } else {
+            cout<< "no discount applied" <<endl;
+        }
+    }
+};
+
+int main(){
+    Car car1("Toyota", "Corolla", 50000,"LMF-090");
+    car1.display();
+    Car car2("Honda", "City", 40000,"LKI-982");
+    car1.display();
+    car2.display();  
+    car1.rent(6);
+    car2.rent(3);
+    car1.display();
+    car2.display();
+}
