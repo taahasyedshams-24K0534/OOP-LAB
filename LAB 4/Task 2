@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+class Car{
+    string brand;
+    string model;
+    float rentalprice;
+    bool availablity;
+    public:
+
+    Car(string newBrand, string newModel, float newPrice, bool newAvailability = true) {
+        brand = newBrand;
+        model = newModel;
+        rentalprice = newPrice;
+        availablity = newAvailability;
+    }
+
+    void update(string newbrand, string newmodel, float newprice){
+        if(availablity==true){
+            brand=newbrand;
+            model=newmodel;
+            rentalprice=newprice;
+            cout<<"updated"<<endl;
+        } else {
+            cout<<"not updated"<<endl;
+        }
+    }
+
+    void rent(){
+        if(availablity==true){
+            availablity=false;
+            cout<<"car rented"<<endl;
+            
+        } else {
+            cout<<"unavailable"<<endl;
+        }
+    }
+
+    void display(){
+        cout<<"Car Brand: "<<brand<<endl;
+        cout<<"Car Model: "<<model<<endl;
+        cout<<"Car Rental Price: "<<rentalprice<<endl;
+        if(availablity==false){
+            cout<<"Car Availibilty: Unavailable"<<endl;
+        } else {
+            cout<<"Car Availibilty: Available"<<endl;
+
+        }
+    }
+
+    void discount(int days) {
+        if (days > 10) {
+            rentalprice=rentalprice-rentalprice*0.10;
+            cout << "a 10% discount has been applied" << endl;
+        } else if (days > 5) {
+            rentalprice= rentalprice-rentalprice*0.05;
+            cout <<"a 5% discount has been applied"<< endl;
+        } else {
+            cout<< "no discount applied" <<endl;
+        }
+    }
+};
+
+int main(){
+    Car car1("Toyota","Corolla",50000);
+    car1.display();
+    car1.rent();
+    car1.discount(7);
+    car1.display();
+    car1.rent();
+}
