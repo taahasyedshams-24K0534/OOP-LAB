@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+class Car{
+    string brand;
+    string model;
+    float rentalprice;
+    bool availablity;
+    public:
+    Car(){
+        brand="unknown";
+        model="generic";
+        rentalprice=0.0;
+        availablity=true;
+    }
+
+    void update(string newbrand, string newmodel, float newprice){
+        if(availablity==true){
+            brand=newbrand;
+            model=newmodel;
+            rentalprice=newprice;
+            cout<<"updated"<<endl;
+        } else {
+            cout<<"not updated"<<endl;
+        }
+    }
+
+    void rent(){
+        if(availablity==true){
+            availablity=false;
+            cout<<"car rented"<<endl;
+            
+        } else {
+            cout<<"unavailable"<<endl;
+        }
+    }
+
+    void display(){
+        cout<<"Car Brand: "<<brand<<endl;
+        cout<<"Car Model: "<<model<<endl;
+        cout<<"Car Rental Price: "<<rentalprice<<endl;
+        if(availablity==false){
+            cout<<"Car Availibilty: Unavailable"<<endl;
+        } else {
+            cout<<"Car Availibilty: Available"<<endl;
+
+        }
+    }
+};
+
+int main(){
+    Car car1;
+    car1.update("Toyota","Corolla",50000);
+    car1.display();
+    car1.rent();
+    car1.display();
+    car1.rent();
+}
