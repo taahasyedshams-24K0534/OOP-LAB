@@ -43,5 +43,4 @@ int main() {
     Manager m(name, salary, bonus);
     cout << "\nManager Details:\n";
     m.displayDetails();
-
-    return 0;
+}
