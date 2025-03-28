@@ -1,1 +1,123 @@
+#include <iostream>
+#include <string>
+using namespace std;
 
+class Device{
+    protected:
+    int deviceID;
+    string deviceName;
+    bool status;
+    string location;
+    public:
+    Device(int id, string name, string loc):deviceID(id),deviceName(name),status(false),location(loc){}
+
+    virtual void turnOn(){
+        status=true;
+        cout<<"device is now ON"<<endl;
+    }
+
+    virtual void turnOff(){
+        status=false;
+        cout<<"device is now OFF"<<endl;
+    }
+
+    virtual void getStatus(){
+        if(status==true){
+            cout<<"device is ON"<<endl;
+        } else {
+            cout<<"device is OFF"<<endl;
+        }
+    }
+
+    virtual void displayInfo(){
+        cout<<"Device ID: "<<deviceID<<endl;
+        cout<<"Device Name: "<<deviceName<<endl;
+        cout<<"Status: ";
+        getStatus();
+        cout<<endl<<"Location: "<<location<<endl;
+    }
+
+    virtual ~Device(){}
+};
+
+class Light : public Device{
+    private:
+    int brightnessLevel;
+    string colorMode;
+    public:
+    Light(int id, string name, string loc,int bl,string cm):Device(id,name,loc),brightnessLevel(bl),colorMode(cm){}
+
+    void displayInfo() override {
+        Device::displayInfo();
+        cout<<"Brightness Level: "<<brightnessLevel<<endl;
+        cout<<"Color Mode: "<<colorMode<<endl;
+    }
+
+};
+
+class Thermostat:public Device{
+    string mode;
+    int temperature;
+    int targetTemperature;
+    public:
+    Thermostat(int id, string name, string loc,string m,int temp,int tt):Device(id,name,loc),mode(m),temperature(temp),targetTemperature(tt){}
+    void getStatus() override{
+        Device::getStatus();
+        cout<<"Current Temperature: "<<temperature<<endl;
+}
+
+};
+
+class SecurityCamera: public Device{
+    string resolution;
+    bool recordingStatus;
+    bool nightVisionEnabled;
+    public:
+    SecurityCamera(int id,string name,string loc, string res,bool nv):Device(id,name,loc),resolution(res),recordingStatus(false),nightVisionEnabled(nv){}
+    void turnOn() override{
+        Device::turnOn();
+        recordingStatus=true;
+        cout<<"recording turned ON"<<endl;
+
+    }
+};
+
+class SmartPlug:public Device{
+    int powerConsumption;
+    int timerSettings;
+    public:
+    SmartPlug(int id, string name, string loc, int pc):Device(id,name,loc),powerConsumption(pc),timerSettings(0){}
+    void turnOff() override{
+        Device::turnOff();
+        status=false;
+        cout<<"device is now OFF"<<endl;
+    }
+};
+
+int main(){
+    Light l1(1,"phillips","bedroom",70,"blue");
+    Thermostat t1(1,"thermo","garden","cool",19,14);
+    SecurityCamera s1(1,"sony","street","1080p",false);
+    SmartPlug p1(1,"kitchen switch","kitchen",57);
+
+    l1.displayInfo();
+    cout<<"\n";
+    t1.displayInfo();
+    cout<<"\n";
+    s1.displayInfo();
+    cout<<"\n";
+    p1.displayInfo();
+    cout<<"\n";
+
+    l1.turnOn();
+    cout<<"\n";
+    t1.getStatus();
+    cout<<"\n";
+    s1.turnOn();
+    cout<<"\n";
+    p1.turnOff();
+
+
+
+
+}
