@@ -1,0 +1,82 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Character {
+protected:
+    int characterID;
+    string name;
+    int level;
+    int healthPoints;
+    string weaponType;
+public:
+    Character(int i,string n,int l,int h,string w)
+        :characterID(i),name(n),level(l),healthPoints(h),weaponType(w){}
+    virtual void attack() {
+        cout<<name<<" attacks with "<<weaponType<<endl;
+    }
+    virtual void defend() {
+        cout<<name<<" defends"<<endl;
+    }
+    virtual void displayStats() {
+        cout<<"ID: "<<characterID
+            <<", Name: "<<name
+            <<", Level: "<<level
+            <<", HP: "<<healthPoints
+            <<", Weapon: "<<weaponType<<endl;
+    }
+};
+class Warrior:public Character{
+    int armorStrength;
+    int meleeDamage;
+public:
+    Warrior(int i,string n,int l,int h,string w,int a,int d)
+        :Character(i,n,l,h,w),armorStrength(a),meleeDamage(d){}
+    void attack()override {
+        cout<<name<<" hits a "<<weaponType<<" with "<<meleeDamage<<" damage"<<endl;
+    }
+};
+class Mage:public Character{
+    int manaPoints;
+    int spellPower;
+public:
+    Mage(int i,string n,int l,int h,string w,int m,int p)
+        :Character(i,n,l,h,w),manaPoints(m),spellPower(p){}
+    void defend()override
+    {
+        cout<<name<<" casts a spell"<<endl;
+    }
+};
+class Archer:public Character{
+    int arrowCount;
+    int rangedAccuracy;
+public:
+    Archer(int i,string n,int l,int h,string w,int a,int r)
+        :Character(i,n,l,h,w),arrowCount(a),rangedAccuracy(r){}
+    void attack()override
+    {
+        cout<<name<<" shoots an arrow with "<<rangedAccuracy<<"% accuracy!"<<endl;
+    }
+};
+class Rogue:public Character
+{
+    int stealthLevel;
+    int agility;
+public:
+    Rogue(int i,string n,int l,int h,string w,int s,int a)
+        :Character(i,n,l,h,w),stealthLevel(s),agility(a){}
+    void displayStats() override {
+        cout<<"Rogue "<<name
+            <<" has Agility "<<agility
+            <<" and Stealth Level "<<stealthLevel<<endl;
+    }
+};
+int main(){
+    Warrior w1(1,"Goku",15,100,"Kamehameha",80,10000);
+    Mage m1(2,"Wanda Maximoff",13,23,"Magical Spell",150,60);
+    Archer a1(3,"Hawkeye",20,91,"Arrow",40,93);
+    Rogue r1(4,"Constantine",11,89,"Cards",99,100);
+    w1.attack();
+    m1.defend();
+    a1.attack();
+    r1.displayStats();
+}
