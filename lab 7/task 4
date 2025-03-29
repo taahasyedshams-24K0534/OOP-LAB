@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person{
+protected:
+    string name;
+    int age, contactNumber;
+    string address;
+public:
+    Person(string n,int a,int cn,string add=""):name(n),age(a),contactNumber(cn),address(add){}
+    virtual void displayInfo(){
+        cout<<"Name: "<<name<<"\nAge: "<<age<<"\nContact Number: "<<contactNumber<<endl;
+        if(address!="") cout<<"Address: "<<address<<endl;
+    }
+    virtual void updateInfo(string n,int a,int cn,string add=""){
+        name=n; age=a; contactNumber=cn; address=add;
+    }
+};
+
+class Patient: public Person{
+    int patientID;
+    string medicalHistory, doctorAssigned;
+public:
+    Patient(string n,int a,int cn,string add,int pid,string his,string doc):Person(n,a,cn,add),patientID(pid),medicalHistory(his),doctorAssigned(doc){}
+    void displayInfo() override{
+        cout<<"Patient ID: "<<patientID<<"\nMedical History: "<<medicalHistory<<"\nDoctor Assigned: "<<doctorAssigned<<endl;
+    }
+};
+
+class Doctor:public Person{
+    string specialization;
+    int consultationFee, patientList[10], pnum;
+public:
+    Doctor(string n,int a,int cn,string add,string s,int cf):Person(n,a,cn,add),specialization(s),consultationFee(cf),pnum(0){}
+    void addPatient(int pid){
+        if(pnum<10) patientList[pnum++]=pid;
+        else cout<<"Max patients reached\n";
+    }
+    void displayInfo() override{
+        cout<<"Specialization: "<<specialization<<"\nConsultation Fee: "<<consultationFee<<"\nPatients:\n";
+        for(int i=0;i<pnum;i++) cout<<i+1<<"- Patient ID: "<<patientList[i]<<endl;
+    }
+};
+
+class Nurse: public Person{
+    string assignedWard, shiftTimings;
+public:
+    Nurse(string n,int a,int cn,string add,string aw,string st):Person(n,a,cn,add),assignedWard(aw),shiftTimings(st){}
+    void displayInfo() override{
+        Person::displayInfo();
+        cout<<"Assigned Ward: "<<assignedWard<<"\nShift Timings: "<<shiftTimings<<endl;
+    }
+};
+
+class Administrator:public Person{
+    string department;
+    int salary;
+public:
+    Administrator(string n,int a,int cn,string add,string dep,int sal):Person(n,a,cn,add),department(dep),salary(sal){}
+    void updateInfo(string n,int a,int cn,string add="") override{
+        Person::updateInfo(n,a,cn,add);
+        cout<<"Enter new department: ";cin>>department;
+        cout<<"Enter new salary: ";cin>>salary;
+    }
+};
+
+int main(){
+    Patient p1("John Cena",40,0322000000,"Earth",111,"Diabetic","Dr. Undertaker");
+    Doctor d1("Dr. Undertaker",50,0333124454,"Graveyard","Diabetics Specialist",600);
+    Nurse n1("Brock Lesnar",20,03442456543,"Malir Cantt","ICU","2 am");
+    Administrator a1("Vince McMahon",60,0345124565,"","Surgery",2000000);
+    p1.displayInfo();
+    cout<<"\n";
+    d1.addPatient(111);
+    d1.displayInfo();
+    cout<<"\n";
+    n1.displayInfo();
+    cout<<"\n";
+    a1.updateInfo("Dr. Undertaker",50,0333124454,"Graveyard");
+}
