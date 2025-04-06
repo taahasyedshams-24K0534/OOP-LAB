@@ -1,0 +1,111 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Product{
+protected:
+	string productID,productName;
+	float price;
+	int stockQuantity;
+public:
+	Product(string id,string name,float p,int stock=0):
+		productID(id),productName(name),price(p),stockQuantity(stock){}
+	virtual float calculateTotalPrice(int quantity){
+		return price*quantity;
+	}
+	virtual void applyDiscount(){}
+	virtual void displayProductInfo(){
+		cout<<"Product ID:"<<productID<<endl;
+		cout<<"Product Name:"<<productName<<endl;
+		cout<<"Price:"<<price<<endl;
+		cout<<"Stock:"<<stockQuantity<<endl;
+	}
+	friend Product operator+(const Product&p1,const Product&p2){
+		return Product("","",p1.price+p2.price,0);
+	}
+	friend ostream&operator<<(ostream&out,const Product&p){
+		out<<"["<<p.productID<<"] "<<p.productName<<" - Rs."<<p.price;
+		return out;
+	}
+};
+
+class Electronics:public Product{
+	string warrantyPeriod,brand;
+public:
+	Electronics(string id,string name,float p,int stock,string wp,string b):
+		Product(id,name,p,stock),warrantyPeriod(wp),brand(b){}
+	void displayProductInfo(){
+		Product::displayProductInfo();
+		cout<<"Brand:"<<brand<<endl;
+		cout<<"Warranty:"<<warrantyPeriod<<endl;
+	}
+};
+
+class Clothing:public Product{
+	string size,color,fabricMaterial;
+public:
+	Clothing(string id,string name,float p,int stock,string s,string c,string f):
+		Product(id,name,p,stock),size(s),color(c),fabricMaterial(f){}
+	void applyDiscount(){
+		price-=price*0.2;
+	}
+	void displayProductInfo(){
+		Product::displayProductInfo();
+		cout<<"Size:"<<size<<endl;
+		cout<<"Color:"<<color<<endl;
+		cout<<"Fabric:"<<fabricMaterial<<endl;
+	}
+};
+
+class FoodItem:public Product{
+	string expirationDate;
+	int calories;
+public:
+	FoodItem(string id,string name,float p,int stock,string ed,int cal):
+		Product(id,name,p,stock),expirationDate(ed),calories(cal){}
+	float calculateTotalPrice(int quantity){
+		float total=price*quantity;
+		if(quantity>=10)total-=total*0.1;
+		return total;
+	}
+	void displayProductInfo(){
+		Product::displayProductInfo();
+		cout<<"Expiration Date:"<<expirationDate<<endl;
+		cout<<"Calories:"<<calories<<endl;
+	}
+};
+
+class Book:public Product{
+	string author,genre;
+public:
+	Book(string id,string name,float p,int stock,string a,string g):
+		Product(id,name,p,stock),author(a),genre(g){}
+	void displayProductInfo(){
+		Product::displayProductInfo();
+		cout<<"Author:"<<author<<endl;
+		cout<<"Genre:"<<genre<<endl;
+	}
+};
+
+int main(){
+	Electronics e("101","Smartphone",52300,10,"1 year","Samsung");
+	Clothing c("102","Shirt",2000,52,"M","Black","Cotton");
+	FoodItem f("103","biscuit",50,100,"1/12/25",250);
+	Book b("104","2010",10000,23,"George RR Martin","Fantasy");
+
+	e.displayProductInfo();
+	cout<<endl;
+	c.applyDiscount();
+	c.displayProductInfo();
+	cout<<endl;
+	f.displayProductInfo();
+	cout<<"Total Price(12 items):"<<f.calculateTotalPrice(12)<<endl;
+	cout<<endl;
+	b.displayProductInfo();
+	cout<<endl;
+
+	Product sum=e+c;
+	cout<<"Combined Price:"<<sum<<endl;
+
+	return 0;
+}
