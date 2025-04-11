@@ -1,0 +1,61 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Account;
+
+class Manager {
+public:
+    void deposit(Account& a,double amount);
+    void withdraw(Account& a,double amount);
+    void display(const Account& a);
+};
+
+class Account {
+private:
+    string accountNumber;
+    double balance;
+public:
+    Account(string accNo,double bal):accountNumber(accNo),balance(bal){}
+    friend class Manager;
+    friend void transferFunds(Account& from,Account& to,double amount);
+};
+
+void Manager::deposit(Account& a,double amount){
+    a.balance+=amount;
+}
+
+void Manager::withdraw(Account& a,double amount){
+    if(a.balance>=amount){
+        a.balance-=amount;
+    }else{
+        cout<<"Insufficient balance for withdrawal in account "<<a.accountNumber<<endl;
+    }
+}
+
+void Manager::display(const Account& a){
+    cout<<"Account Number: "<<a.accountNumber<<endl;
+    cout<<"Balance: "<<a.balance<<endl;
+}
+
+void transferFunds(Account& from,Account& to,double amount){
+    if(from.balance>=amount){
+        from.balance-=amount;
+        to.balance+=amount;
+        cout<<"Transferred "<<amount<<" from "<<from.accountNumber<<" to "<<to.accountNumber<<endl;
+    }else{
+        cout<<"Transfer failed: insufficient balance in "<<from.accountNumber<<endl;
+    }
+}
+
+int main(){
+    Account a1("100",5000);
+    Account a2("101",3000);
+    Manager m;
+    m.deposit(a1,2000);
+    m.withdraw(a2,500);
+    transferFunds(a1,a2,2500);
+    cout<<endl<<"Updated Account Details:"<<endl;
+    m.display(a1);
+    m.display(a2);
+}
