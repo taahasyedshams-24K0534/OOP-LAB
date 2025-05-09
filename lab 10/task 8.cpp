@@ -1,7 +1,5 @@
-#include <iostream>
 #include <fstream>
-#include <string>
-
+#include <iostream>
 using namespace std;
 
 int main() {
@@ -10,6 +8,11 @@ int main() {
     outFile.close();
 
     fstream file("config.txt", ios::in | ios::out);
+    if (!file) {
+        cout << "Failed to open config.txt" << endl;
+        return 1;
+    }
+
     file.seekp(5);
     file << "XXXXX";
     file.close();
@@ -19,5 +22,4 @@ int main() {
     getline(inFile, content);
     cout << content << endl;
     inFile.close();
-
 }
