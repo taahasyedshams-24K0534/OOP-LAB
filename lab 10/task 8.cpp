@@ -20,5 +20,4 @@ int main() {
     cout << content << endl;
     inFile.close();
 
-    return 0;
 }
