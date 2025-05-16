@@ -1,0 +1,66 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class Car{
+    string brand;
+    string model;
+    double fuelCapacity;
+    double currentFuelLevel;
+    double mileagePerKm;
+
+public:
+    Car(string b,string m,double cap,double mileage){
+        brand=b;
+        model=m;
+        fuelCapacity=cap;
+        currentFuelLevel=cap;
+        mileagePerKm=mileage;
+    }
+
+    void drive(double distance){
+        double fuelNeeded=distance/mileagePerKm;
+        if(fuelNeeded>currentFuelLevel){
+            cout<<"Not enough fuel to drive "<<distance<<" km."<<endl;
+        }else{
+            currentFuelLevel-=fuelNeeded;
+            cout<<"Drove "<<distance<<" km. Fuel left: "<<currentFuelLevel<<" L"<<endl;
+        }
+    }
+
+    void refuel(double amount){
+        if(amount<=0){
+            cout<<"Invalid refuel amount."<<endl;
+            return;
+        }
+        if(currentFuelLevel+amount>fuelCapacity){
+            currentFuelLevel=fuelCapacity;
+            cout<<"Tank full. Current fuel: "<<currentFuelLevel<<" L"<<endl;
+        }else{
+            currentFuelLevel+=amount;
+            cout<<"Refueled. Current fuel: "<<currentFuelLevel<<" L"<<endl;
+        }
+    }
+
+    void checkFuelStatus(){
+        cout<<"Current fuel level: "<<currentFuelLevel<<" L"<<endl;
+        if(currentFuelLevel<(0.1*fuelCapacity)){
+            cout<<"Warning: Fuel is low!"<<endl;
+        }
+    }
+};
+
+int main(){
+    Car car("Toyota","Corolla",50,15);
+
+    car.checkFuelStatus();
+    car.drive(100);
+    car.checkFuelStatus();
+    car.drive(600);
+    car.refuel(30);
+    car.drive(200);
+    car.checkFuelStatus();
+
+    return 0;
+}
