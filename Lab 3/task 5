@@ -1,0 +1,91 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class MusicPlayer{
+    string playlist[100];
+    int songCount;
+    string currentlyPlayingSong;
+
+public:
+    MusicPlayer(){
+        songCount=0;
+        currentlyPlayingSong="";
+    }
+
+    void addSong(string song){
+        if(songCount<100){
+            playlist[songCount++]=song;
+            cout<<"Added: "<<song<<endl;
+        }else{
+            cout<<"Playlist is full."<<endl;
+        }
+    }
+
+    void removeSong(string song){
+        int index=-1;
+        for(int i=0;i<songCount;i++){
+            if(playlist[i]==song){
+                index=i;
+                break;
+            }
+        }
+        if(index==-1){
+            cout<<"Song not found: "<<song<<endl;
+            return;
+        }
+        for(int i=index;i<songCount-1;i++){
+            playlist[i]=playlist[i+1];
+        }
+        songCount--;
+        cout<<"Removed: "<<song<<endl;
+        if(currentlyPlayingSong==song){
+            currentlyPlayingSong="";
+        }
+    }
+
+    void playSong(string song){
+        bool found=false;
+        for(int i=0;i<songCount;i++){
+            if(playlist[i]==song){
+                currentlyPlayingSong=song;
+                found=true;
+                break;
+            }
+        }
+        if(found){
+            cout<<"Now playing: "<<currentlyPlayingSong<<endl;
+        }else{
+            cout<<"Song not in playlist: "<<song<<endl;
+        }
+    }
+
+    void displayPlaylist(){
+        cout<<"Playlist:"<<endl;
+        for(int i=0;i<songCount;i++){
+            cout<<i+1<<". "<<playlist[i]<<endl;
+        }
+        if(currentlyPlayingSong!=""){
+            cout<<"Currently playing: "<<currentlyPlayingSong<<endl;
+        }
+    }
+};
+
+int main(){
+    MusicPlayer player;
+    player.addSong("Shape of You");
+    player.addSong("Blinding Lights");
+    player.addSong("Let Down");
+
+    player.displayPlaylist();
+
+    player.playSong("Blinding Lights");
+    player.removeSong("Shape of You");
+
+    player.displayPlaylist();
+
+    player.playSong("Let Down");
+
+    return 0;
+}
