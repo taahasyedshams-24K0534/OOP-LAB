@@ -1,0 +1,105 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class Book{
+public:
+    int id;
+    string title;
+    bool isBorrowed;
+
+    Book(){
+        id=-1;
+        title="";
+        isBorrowed=false;
+    }
+
+    Book(int _id,string _title){
+        id=_id;
+        title=_title;
+        isBorrowed=false;
+    }
+};
+
+class Library{
+    Book bookList[100];
+    int totalBooks;
+public:
+    Library():totalBooks(0){}
+
+    void addBook(int id,string title){
+        if(totalBooks<100){
+            bookList[totalBooks++]=Book(id,title);
+            cout<<"Book added: "<<title<<endl;
+        }else{
+            cout<<"Library capacity full."<<endl;
+        }
+    }
+
+    void lendBook(int id){
+        for(int i=0;i<totalBooks;i++){
+            if(bookList[i].id==id){
+                if(!bookList[i].isBorrowed){
+                    bookList[i].isBorrowed=true;
+                    cout<<"Book lent: "<<bookList[i].title<<endl;
+                    return;
+                }else{
+                    cout<<"Book already borrowed."<<endl;
+                    return;
+                }
+            }
+        }
+        cout<<"Book ID not found."<<endl;
+    }
+
+    void returnBook(int id){
+        for(int i=0;i<totalBooks;i++){
+            if(bookList[i].id==id){
+                if(bookList[i].isBorrowed){
+                    bookList[i].isBorrowed=false;
+                    cout<<"Book returned: "<<bookList[i].title<<endl;
+                    return;
+                }else{
+                    cout<<"Book was not borrowed."<<endl;
+                    return;
+                }
+            }
+        }
+        cout<<"Book ID not found."<<endl;
+    }
+
+    void showAvailableBooks(){
+        cout<<"Available Books:"<<endl;
+        for(int i=0;i<totalBooks;i++){
+            if(!bookList[i].isBorrowed){
+                cout<<bookList[i].id<<": "<<bookList[i].title<<endl;
+            }
+        }
+    }
+
+    void showBorrowedBooks(){
+        cout<<"Borrowed Books:"<<endl;
+        for(int i=0;i<totalBooks;i++){
+            if(bookList[i].isBorrowed){
+                cout<<bookList[i].id<<": "<<bookList[i].title<<endl;
+            }
+        }
+    }
+};
+
+int main(){
+    Library lib;
+    lib.addBook(1,"The Great Gatsby");
+    lib.addBook(2,"To Kill a Mockingbird");
+    lib.addBook(3,"1984");
+
+    lib.lendBook(2);
+    lib.lendBook(3);
+    lib.returnBook(2);
+
+    lib.showAvailableBooks();
+    lib.showBorrowedBooks();
+
+    return 0;
+}
